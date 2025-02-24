@@ -3,67 +3,114 @@ import Header from '../components/Header'
 import { ToastContainer, toast } from 'react-toastify';
 
 const Register = () => {
-    const [name,setName] = useState("");
-    const [email,setEmail] = useState("");
-    const [password,setPassword] = useState("");
-    const handleSubmit = async(event) => {
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [city, setCity] = useState("");
+    const [gender,setGender] = useState("");
+    const [contact,setContact] = useState("");
+    const [image,setImage] = useState("");
+
+
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        if(!name || !email || !password){
-            toast.error("All field is required");
-            return false;
-        }
-        try{
-            let res = await fetch(`http://localhost:8000/register`,{
-                method:'POST',
-                headers:{
-                    'Content-Type' : 'application/json'
-                },
-                body:JSON.stringify({
-                    name : name,
-                    email:email,
-                    password:password
-                })
+
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("email", email);
+        formData.append("password", password);
+        formData.append("city", city);
+        formData.append("gender", gender);
+        formData.append("contact", contact);
+        formData.append("userimage", image);
+  
+        
+        try {
+            if (!name || !email || !password) {
+                toast.error("All field is required");
+                return false;
+            }
+            let res = await fetch(`http://localhost:8000/register`, {
+                method: 'POST',
+                body: formData
             })
             let user = await res.json();
-            if(user?.success){
+            if (user?.success) {
                 toast.success(user?.message);
                 setName("")
                 setEmail("")
                 setPassword("")
-            }else{
+                setCity("")
+                setGender("");
+                setContact("");
+                setImage("");
+            } else {
                 toast.error(user?.error)
             }
-        }catch(err){
+        } catch (err) {
             console.log(err);
-            return  false;
+            return false;
         }
     }
-  return (
-    <>
-        <Header/>
-        <div className='container mt-5'>
+
+
+    
+    return (
+        <>
+            <Header />
+            <div className='container mt-5'>
                 <div className="row">
-                    <div className="col-md-8">
+                    <div className="col-md-12">
                         <div className="card">
                             <div className="card-header">
                                 <h4>Register User</h4>
                             </div>
                             <div className="card-body">
                                 <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                        <label htmlFor="exampleInputEmail1" className="form-label">Name</label>
-                                        <input type="text" onChange={ (e) => setName(e.target.value) } value={name} className="form-control" placeholder='Enter your name'/>
+                                    <div className="row">
+                                        <div className="col-md-6">
+                                                <div className="mb-3">
+                                                    <label htmlFor="exampleInputEmail1" className="form-label">Name</label>
+                                                    <input type="text" onChange={(e) => setName(e.target.value)} value={name} className="form-control" placeholder='Enter your name' />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
+                                                    <input type="text" onChange={(e) => setEmail(e.target.value)} value={email} className="form-control" placeholder='Enter your email' />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
+                                                    <input type="password" onChange={(e) => setPassword(e.target.value)} value={password} className="form-control" placeholder='Enter your password' />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label htmlFor="exampleInputPassword1" className="form-label">City</label>
+                                                    <input type="text" onChange={(e) => setCity(e.target.value)} value={city} className="form-control" placeholder='Enter your city' />
+                                                </div>
+                                               
+                                            
+                                        </div>
+
+                                        <div className="col-md-6">
+                                            <div className="mb-3">
+                                                    <label htmlFor="exampleInputEmail1" className="form-label">Gender</label>
+                                                    <br/>
+                                                    Male :- <input type="radio" name='gender' value="male" onChange={(e) => setGender(e.target.value)} />
+                                                    &nbsp;
+                                                    Female :- <input type="radio" name='gender' value="female" onChange={(e) => setGender(e.target.value)}/>
+                                            </div>
+                                            <div className="mb-3">
+                                                    <label htmlFor="exampleInputEmail1" className="form-label">Contact</label>
+                                                    <input type="text" onChange={(e) => setContact(e.target.value)} value={contact} className="form-control" placeholder='Enter your contact' />
+                                            </div>
+                                            <div className="mb-3">
+                                                    <label htmlFor="exampleInputEmail1" className="form-label">Image</label>
+                                                    <input type="file" onChange={(e) => setImage(e.target.files[0])} className="form-control"/>
+                                            </div>
+                                            <button type="submit" className="btn btn-primary">Submit</button>
+                                        </div>
                                     </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-                                        <input type="text" onChange={ (e) => setEmail(e.target.value) } value={email}  className="form-control" placeholder='Enter your email'/>
-                                    </div>
-                                    <div className="mb-3">
-                                        <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                                        <input type="password" onChange={ (e) => setPassword(e.target.value) } value={password}  className="form-control" placeholder='Enter your password'/>
-                                    </div>
-                                    <button type="submit" className="btn btn-primary">Submit</button>
                                 </form>
+                                
 
                             </div>
                         </div>
@@ -74,8 +121,8 @@ const Register = () => {
             <ToastContainer
                 autoClose={1000}
             />
-    </>
-  )
+        </>
+    )
 }
 
 export default Register

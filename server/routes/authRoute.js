@@ -6,8 +6,28 @@ const {registerUser, login ,adminAccess,managerAccess} = require('../controllers
 
 const { verifyToken, authorizeRole } = require('../middleware/AuthMiddleware');
 
+const multer = require('multer');
+
+const storage = multer.diskStorage({});
+
+const userImage = multer({ storage: storage }).single('userimage');
+
 routes.post('/login',login)
-routes.post('/register',registerUser)
+routes.post('/register',userImage,registerUser)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 //example test rolebase authentication
 routes.get('/admin-access',verifyToken,authorizeRole(['admin']),adminAccess)
