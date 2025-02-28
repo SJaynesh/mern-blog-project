@@ -38,6 +38,8 @@ const Login = () => {
                 })
             })
             let data = await res.json()
+            toast.success(data?.message)
+        
             if(data?.success){
                 let login = {
                     token:data?.token,
@@ -48,12 +50,14 @@ const Login = () => {
                     token:login
                 })
                 localStorage.setItem('loginuser',JSON.stringify(login))
-                toast.success(data?.message)
-
+                alert("Login Successfull");
                 //role wise routing
-                const userRole = data?.user?.role;
+                const userRole = data?.user?.role; 
                 if(userRole === 'admin'){
-                    navigate('/admin/dashboard')
+                    setTimeout(()=>{
+                        navigate('/admin/dashboard')
+                    },3000);
+                    
                 }
                 else if(userRole === 'manager'){
                     navigate('/manager/dashboard')

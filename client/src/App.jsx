@@ -8,6 +8,7 @@ import Admin from "../pages/admin/Admin";
 import Manager from "../pages/manager/Manager";
 import Users from "../pages/users/User";
 import Auth from "../Private/Auth";
+import Adminuser from "../pages/admin/Adminuser";
 function App() {
   return (
      <BrowserRouter>
@@ -19,6 +20,7 @@ function App() {
 
             <Route path="/admin" element={<Auth allowedRole={['admin']}/>}>
                <Route path="dashboard" element={<Admin/>}/>
+               <Route path="user" element={<Adminuser/>}/>
             </Route>
 
             {/* Manager Route */}

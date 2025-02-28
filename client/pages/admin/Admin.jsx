@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Adminsidebar from '../../components/Adminsidebar';
+import Admindetails from '../../components/Usersdetails';
 
 const Admin = () => {
   const [stats, setStats] = useState({
@@ -9,14 +10,22 @@ const Admin = () => {
     revenue: 0,
   });
 
-  
+
 
   return (
     <>
       <Header />
       <div className="container mt-5">
-        <h2 className="text-center mb-4">Admin Dashboard</h2>
+
         <div className="row">
+          <div className="col-md-12"> 
+            <Admindetails />
+          </div>
+        </div>
+
+
+
+        <div className="row mt-5">
           {/* Sidebar Column */}
           <div className="col-md-3">
             <Adminsidebar />

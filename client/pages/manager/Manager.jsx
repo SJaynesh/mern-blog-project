@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Adminsidebar from '../../components/Adminsidebar';
 import { FaUsers, FaTasks, FaChartLine } from 'react-icons/fa';  // Importing icons for better UI
+import Usersdetails from '../../components/Usersdetails';
 
 const Manager = () => {
   const [stats, setStats] = useState({
@@ -24,8 +25,16 @@ const Manager = () => {
     <>
       <Header />
       <div className="container mt-5">
-        <h2 className="text-center mb-4">Manager Dashboard</h2>
+        
+
         <div className="row">
+          <div className="col-md-12">
+            <Usersdetails/>
+          </div>
+        </div>
+        
+
+        <div className="row mt-5">
           {/* Sidebar Column */}
           <div className="col-md-3">
             <Adminsidebar />

@@ -5,6 +5,8 @@ const cloudinary = require('cloudinary').v2;
 
 const login = async(req,res) => {
     try{
+        console.log("done");
+        
         const {email,password} = req.body;
         if(!email || !password){
             return res.status(401).send({
