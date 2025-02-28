@@ -28,7 +28,9 @@ const Adminuser = () => {
       })
       let data = await res.json();
       if (data?.success) {
-        setUsers(data.users);
+        //show role only manager and user
+        let filterdata = data?.users.filter(val => val.role=="manager" || val.role=="user")
+        setUsers(filterdata);
 
       }
 
@@ -69,44 +71,63 @@ const Adminuser = () => {
                 All Users
               </div>
               <div className="card-body">
-            
-                  <table className="table">
-                    <thead className="table-info">
-                      <tr>
-                        <th scope="col">Srno</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Password</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {
-                         users.map((val,index)=>{
-                          return(
-                            <tr key={index}>
-                                <td>{++index}</td>
-                                <td>{val?.name}</td>
-                                <td>{val?.email}</td>
-                                <td>{val?.password}</td> 
-                                <td>{val?.role}</td>
-                                <td>
-                                  <button className='btn btn-danger btn-sm'>Delete</button>&nbsp;
-                                    <button className='btn btn-success btn-sm'>Edit</button>&nbsp;
-                                  <button className='btn btn-info btn-sm'>More Details</button>
-                                </td>
-                            </tr>
-                          )
-                         })
-                      }
 
-                    </tbody>
-                  </table>
-                </div>
+                <table className="table">
+                  <thead className="table-info">
+                    <tr>
+                      <th scope="col">Srno</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Password</th>
+                      <th scope='col'>Create At</th>
+                      <th scope="col">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {
+                      users.map((val, index) => {
+                        // Function to format date in dd-mm-yy hh:mm:ss AM/PM format
+                        const formatDateTime = (date) => {
+                          const d = new Date(date);
+                          const day = String(d.getDate()).padStart(2, '0');
+                          const month = String(d.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                          const year = String(d.getFullYear()).slice(-2); // Last two digits of the year
 
+                          let hours = d.getHours();
+                          const minutes = String(d.getMinutes()).padStart(2, '0');
+                          const seconds = String(d.getSeconds()).padStart(2, '0');
+
+                          const ampm = hours >= 12 ? 'PM' : 'AM';
+                          hours = hours % 12; // Convert 24-hour time to 12-hour format
+                          hours = hours ? String(hours).padStart(2, '0') : '12'; // Hour 0 should be 12 for AM
+
+                          return `${day}-${month}-${year} ${hours}:${minutes}:${seconds} ${ampm}`;
+                        };
+
+                        return (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{val?.name}</td>
+                            <td>{val?.email}</td>
+                            <td>{val?.password}</td>
+                            <td>{formatDateTime(val?.createdAt)}</td> {/* Format createdAt with time in 12-hour format */}
+                            <td>
+                              <button className='btn btn-danger btn-sm'>Delete</button>&nbsp;
+                              <button className='btn btn-success btn-sm'>Edit</button>&nbsp;
+                              <button className='btn btn-info btn-sm'>More Details</button>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    }
+
+
+                  </tbody>
+                </table>
               </div>
-          
+
+            </div>
+
 
 
           </div>
