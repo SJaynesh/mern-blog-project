@@ -2,7 +2,7 @@ const express = require('express');
 
 const routes = express.Router();
 
-const {registerUser, login ,adminAccess,managerAccess} = require('../controllers/AuthController');
+const {registerUser, login ,adminAccess,managerAccess,userProfile} = require('../controllers/AuthController');
 
 const { verifyToken, authorizeRole } = require('../middleware/AuthMiddleware');
 
@@ -14,6 +14,7 @@ const userImage = multer({ storage: storage }).single('userimage');
 
 routes.post('/login',login)
 routes.post('/register',userImage,registerUser)
+routes.post('/userprofile',userImage,userProfile)
 
 
 

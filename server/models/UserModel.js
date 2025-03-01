@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
         type:String,
         required: true
     },
+    status:{
+        type:String,
+        default:'deactive'
+    },
     role:{
         type : String,
         enum : ['admin','manager','user'],

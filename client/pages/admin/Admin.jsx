@@ -17,22 +17,15 @@ const Admin = () => {
       <Header />
       <div className="container mt-5">
 
-        <div className="row">
-          <div className="col-md-12"> 
-            <Admindetails />
-          </div>
-        </div>
-
-
-
+      
         <div className="row mt-5">
           {/* Sidebar Column */}
-          <div className="col-md-3">
+          <div className="col-sm-12 col-md-3 col-lg-3">
             <Adminsidebar />
           </div>
 
           {/* Main Content Column */}
-          <div className="col-md-9">
+          <div className="col-sm-12 col-md-6 col-lg-6">
             <div className="row">
               {/* Dashboard Card 1 */}
               <div className="col-md-4 mb-4">
@@ -97,6 +90,11 @@ const Admin = () => {
               </div>
             </div>
           </div>
+
+          <div className="col-sm-12 col-md-3 col-lg-3"> 
+            <Admindetails />
+          </div>
+
         </div>
       </div>
     </>
