@@ -24,6 +24,8 @@ const Login = () => {
     },[auth?.token])
     //without user logout not enter login page
     
+   
+    
     const handleSubmit = async(event) => {
         event.preventDefault();
         try{
@@ -34,13 +36,13 @@ const Login = () => {
                 },
                 body : JSON.stringify({
                     email: email,
-                    password: password
+                    password: password,
                 })
             })
             let data = await res.json()
-            toast.success(data?.message)
-        
-            if(data?.success){
+            
+            
+            if(data?.success && data?.user?.status === "active"){
                 let login = {
                     token:data?.token,
                     user : data?.user
@@ -51,6 +53,7 @@ const Login = () => {
                 })
                 localStorage.setItem('loginuser',JSON.stringify(login))
                 alert("Login Successfull");
+                
                 //role wise routing
                 const userRole = data?.user?.role; 
                 if(userRole === 'admin'){
@@ -67,12 +70,16 @@ const Login = () => {
                 }
             }else{
                 toast.error(data?.message);
+                setEmail("")
+                setPassword("")
                 return false;
             }
         }catch(err){
             console.log(err)
             return false;
         }
+
+        
     }
 
     return (

@@ -4,6 +4,7 @@ import { GrUserManager } from "react-icons/gr";
 import { FaUser } from "react-icons/fa";
 import { MdDashboard } from "react-icons/md";
 import { FaBlogger } from "react-icons/fa";
+import { MdPassword } from "react-icons/md";
 
 
 const Adminsidebar = () => {
@@ -26,7 +27,7 @@ const Adminsidebar = () => {
                             <FaBlogger/>&nbsp;Blog
                         </Link>
                         <Link class="list-group-item list-group-item-action" aria-current="true">
-                            Profile
+                            <MdPassword/> Change Password
                         </Link>
                         
                     </div>

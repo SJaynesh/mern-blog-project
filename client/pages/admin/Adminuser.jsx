@@ -11,10 +11,8 @@ import { toast, ToastContainer } from 'react-toastify';
 const Adminuser = () => {
 
   const navigate = useNavigate();
-
   const [auth, setAuth] = useAuth();
   const [users, setUsers] = useState([]);
-  const [role,setRole] = useState("")
 
   let allUsers = async () => {
     try {
@@ -59,18 +57,54 @@ const Adminuser = () => {
   }
 
   //user change role by admin side
-  useEffect(async()=>{
-    if(role){
-          try{
-            let res = await fetch(`http://localhost:8000/admin/chagerole?userid=`)
-          }catch(err){
-            console.log(err);
-            return false;
-          }
-        
+  const changeRole = async (id, role) => {
+    try {
+      let res = await fetch(`http://localhost:8000/admin/chagerole?userid=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.token?.token}`
+        },
+        body: JSON.stringify({
+          role: role
+        })
+      })
+      let data = await res.json();
+      if (data?.success) {
+        toast.success("Role changed successfully");
+        allUsers()
+      }
+    } catch (err) {
+      console.log(err)
+      return false;
     }
-    
-  },[role])
+  }
+
+  //user change role by admin side
+  const changeStatus = async (id, st) => {
+    try {
+      let res = await fetch(`http://localhost:8000/admin/chagestatus?userid=${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${auth.token?.token}`
+        },
+        body: JSON.stringify({
+          status: st
+        })
+      })
+      let data = await res.json();
+      if (data?.success) {
+        toast.success("Status changed successfully");
+        toast.removalReason = 'some reason'; // This line is causing the error
+        allUsers()
+      }
+    } catch (err) {
+      console.log(err)
+      return false;
+    }
+  }
+
 
 
 
@@ -118,11 +152,11 @@ const Adminuser = () => {
                             <td>{val?.role}</td>
                             <td>
                               <button onClick={() => deleteUser(val?._id)} className='btn btn-danger btn-sm'>Delete</button>&nbsp;
-                              <button className='btn btn-success btn-sm'>Edit</button>&nbsp;
+                              <button className='btn btn-success btn-sm' data-bs-toggle="modal" data-bs-target="#updateUserModal">Edit</button>&nbsp;
                               <button onClick={() => navigate(`/admin/moredetails`, { state: val })} className='btn btn-info btn-sm mt-2'>More Details</button>
                             </td>
                             <td>
-                              <select onChange={ (e) => setRole(e.target.value)  } className='form-control'>
+                              <select onChange={(e) => changeRole(val?._id, e.target.value)} className='form-control'>
                                 <option value="">---select role---</option>
                                 {
                                   ["admin", "manager", "user"].map((role, index) => {
@@ -140,7 +174,7 @@ const Adminuser = () => {
                               </select>
                             </td>
                             <td>
-                              <select  className='form-control'>
+                              <select onChange={(e) => changeStatus(val?._id, e.target.value)} className='form-control'>
                                 <option value="">---select status---</option>
                                 {
                                   ["active", "deactive"].map((st, index) => {
@@ -178,6 +212,27 @@ const Adminuser = () => {
           </div>
 
         </div>
+
+        
+
+        <div className="modal fade" id="updateUserModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
+              </div>
+              <div className="modal-body">
+                ...
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <ToastContainer />
       </div>
     </>

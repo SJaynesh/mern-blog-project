@@ -74,6 +74,83 @@ const changeRole = async(req,res) => {
         })
     }
 }
+const chageStatus = async(req,res) => {
+    try{
+        let userid = req.query?.userid;
+        let status = req.body.status;
+        let user = await User.findByIdAndUpdate(userid,{
+            status : status
+        });
+        return res.status(200).send({
+            success : true,
+            message : 'user status changed successfully',
+            user
+        })
+    }
+    catch(err){
+        return res.status(501).send({
+            success : false,
+            error : err
+        })
+    }
+}
+const updateUser = async(req,res) => {
+    try{
+        const {userid,name,email,password,gender,city,contact,status,role} = req.body;
+        console.log(req.body);
+        if(req.file){
+            //old image remove in clouldinari
+            let oldimage = await User.findById(userid);
+            await clouldinary.uploader.destroy(oldimage?.public_id);
+            //new image upload in clouldinary
+            let imageUrl = await clouldinary.uploader.upload(req.file.path)
+            let user = await User.findByIdAndUpdate(userid,{
+                name : name,
+                email : email,
+                password:password,
+                gender : gender,
+                city : city,
+                contact : contact,
+                image : imageUrl?.secure_url,
+                public_id:imageUrl?.public_id,
+                status : status,
+                role : role,
+            })
+            return res.status(200).send({
+                success : true,
+                message : 'user updated successfully',
+                user
+            })
+        }else{
+            let oldimage = await User.findById(userid);
+            let user = await User.findByIdAndUpdate(userid,{
+                name : name,
+                email : email,
+                password:password,
+                gender : gender,
+                city : city,
+                contact : contact,
+                image : oldimage?.image,
+                public_id:oldimage?.public_id,
+                status : status,
+                role : role,
+            })
+            return res.status(200).send({
+                success : true,
+                message : 'user updated successfully',
+                user
+            })
+        }  
+        
+        
+    }
+    catch(err){
+        return res.status(501).send({
+            success : false,
+            error : err
+        })
+    }
+}
 module.exports = {
-    allUserShow,singelUser,deleteUser,changeRole
+    allUserShow,singelUser,deleteUser,changeRole,chageStatus,updateUser
 }

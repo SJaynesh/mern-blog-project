@@ -20,6 +20,12 @@ const login = async(req,res) => {
                 message : "Email and Password not valid"
             })
         }
+        if(user.status === "deactive"){
+            return res.status(401).send({
+                success : false,
+                message : "Admin not active your account. your account is deactive"
+            })
+        }
         //create token
         let token = JWT.sign({payload:user},'mahadev',{expiresIn:'3hr'})
         return res.status(200).send({
