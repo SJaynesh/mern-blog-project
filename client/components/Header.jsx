@@ -12,7 +12,6 @@ const Header = () => {
             ...auth,
             token: null
         })
-        toast.success("User successfully logged out");
         localStorage.removeItem('loginuser');
         setTimeout(() => {
             navigate('/');

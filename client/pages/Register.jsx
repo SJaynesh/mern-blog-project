@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import Header from '../components/Header'
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
     const [name, setName] = useState("");
@@ -10,6 +11,8 @@ const Register = () => {
     const [gender,setGender] = useState("");
     const [contact,setContact] = useState("");
     const [image,setImage] = useState("");
+    const imageInputRef = useRef(null);
+    const navigate = useNavigate()
 
 
 
@@ -38,13 +41,15 @@ const Register = () => {
             let user = await res.json();
             if (user?.success) {
                 toast.success(user?.message);
+                navigate('/admin/user');
+                //after submit button press , clear the form fields with image fields
                 setName("")
                 setEmail("")
                 setPassword("")
                 setCity("")
                 setGender("");
                 setContact("");
-                setImage("");
+                imageInputRef.current.value = ""
             } else {
                 toast.error(user?.error)
             }
@@ -94,9 +99,17 @@ const Register = () => {
                                             <div className="mb-3">
                                                     <label htmlFor="exampleInputEmail1" className="form-label">Gender</label>
                                                     <br/>
-                                                    Male :- <input type="radio" name='gender' value="male" onChange={(e) => setGender(e.target.value)} />
-                                                    &nbsp;
-                                                    Female :- <input type="radio" name='gender' value="female" onChange={(e) => setGender(e.target.value)}/>
+                                                    <select
+                                                    className="form-control"
+                                                    id="gender"
+                                                    onChange={(e) => setGender(e.target.value)}
+                                                    value={gender}
+                                                >
+                                                    <option value="">Select your gender</option>
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
+                    
+                                                </select>
                                             </div>
                                             <div className="mb-3">
                                                     <label htmlFor="exampleInputEmail1" className="form-label">Contact</label>
@@ -104,7 +117,7 @@ const Register = () => {
                                             </div>
                                             <div className="mb-3">
                                                     <label htmlFor="exampleInputEmail1" className="form-label">Image</label>
-                                                    <input type="file" onChange={(e) => setImage(e.target.files[0])} className="form-control"/>
+                                                    <input type="file" ref={imageInputRef} onChange={(e) => setImage(e.target.files[0])} className="form-control"/>
                                             </div>
                                             <button type="submit" className="btn btn-primary">Submit</button>
                                         </div>

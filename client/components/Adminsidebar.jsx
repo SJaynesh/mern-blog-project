@@ -9,24 +9,26 @@ import { MdPassword } from "react-icons/md";
 
 const Adminsidebar = () => {
     const location = useLocation();
+    console.log(location?.pathname);
+    
     return (
         <div className='container'>
             <div className="row">
                 <div className="col-md-12">
-                    <div class="list-group">
-                        <Link to={`/admin/dashboard`} class={`list-group-item list-group-item-action ${location?.pathname ==='/admin/dashboard' ? 'active' : ''}`} aria-current="true">
+                    <div className="list-group">
+                        <Link  to={`/admin/dashboard`} className={`list-group-item list-group-item-action ${location?.pathname === '/admin/dashboard' ? 'active' : ''}`} aria-current="true">
                             <MdDashboard/>&nbsp;Dashboard
                         </Link>
-                        <Link to={`/admin/user`} class={`list-group-item list-group-item-action ${location?.pathname ==='/admin/user' ? 'active' : ''}`} aria-current="true">
+                        <Link to={`/admin/user`} className={`list-group-item list-group-item-action ${location?.pathname ===  '/admin/moredetails' ? 'active' : ''}`} aria-current="true">
                             <FaUser/>&nbsp;User
                         </Link>
-                        <Link class="list-group-item list-group-item-action" aria-current="true">
+                        <Link className="list-group-item list-group-item-action" aria-current="true">
                             <GrUserManager/>&nbsp;Manager
                         </Link>
-                        <Link class="list-group-item list-group-item-action" aria-current="true">
+                        <Link className="list-group-item list-group-item-action" aria-current="true">
                             <FaBlogger/>&nbsp;Blog
                         </Link>
-                        <Link class="list-group-item list-group-item-action" aria-current="true">
+                        <Link className="list-group-item list-group-item-action" aria-current="true">
                             <MdPassword/> Change Password
                         </Link>
                         

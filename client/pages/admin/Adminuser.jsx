@@ -112,9 +112,6 @@ const Adminuser = () => {
     <>
       <Header />
       <div className="container mt-5">
-
-
-
         <div className="row mt-5">
           {/* Sidebar Column */}
           <div className="col-md-3">
@@ -137,14 +134,12 @@ const Adminuser = () => {
                       <th scope="col">Action</th>
                       <th scope='col'>Role</th>
                       <th scope='col'>Status</th>
-
                     </tr>
                   </thead>
+
                   <tbody>
                     {
                       users.map((val, index) => {
-
-
                         return (
                           <tr key={index}>
                             <td>{index + 1}</td>
@@ -152,7 +147,7 @@ const Adminuser = () => {
                             <td>{val?.role}</td>
                             <td>
                               <button onClick={() => deleteUser(val?._id)} className='btn btn-danger btn-sm'>Delete</button>&nbsp;
-                              <button className='btn btn-success btn-sm' data-bs-toggle="modal" data-bs-target="#updateUserModal">Edit</button>&nbsp;
+                              <button onClick={ () => navigate(`/admin/edituser`,{state:val}) } className='btn btn-success btn-sm'>Edit</button>&nbsp;
                               <button onClick={() => navigate(`/admin/moredetails`, { state: val })} className='btn btn-info btn-sm mt-2'>More Details</button>
                             </td>
                             <td>
@@ -195,16 +190,10 @@ const Adminuser = () => {
                         );
                       })
                     }
-
-
                   </tbody>
                 </table>
               </div>
-
             </div>
-
-
-
           </div>
 
           <div className="col-md-3">
@@ -212,27 +201,6 @@ const Adminuser = () => {
           </div>
 
         </div>
-
-        
-
-        <div className="modal fade" id="updateUserModal" tabIndex={-1} aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" />
-              </div>
-              <div className="modal-body">
-                ...
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" className="btn btn-primary">Save changes</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <ToastContainer />
       </div>
     </>

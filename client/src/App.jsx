@@ -10,6 +10,7 @@ import Users from "../pages/users/User";
 import Auth from "../Private/Auth";
 import Adminuser from "../pages/admin/Adminuser";
 import Adminmoredetails from "../pages/admin/Adminmoredetails";
+import Adminedituser from "../pages/admin/Adminedituser";
 function App() {
   return (
      <BrowserRouter>
@@ -23,6 +24,7 @@ function App() {
                <Route path="dashboard" element={<Admin/>}/>
                <Route path="user" element={<Adminuser/>}/>
                <Route path="moredetails" element={<Adminmoredetails/>}/>
+               <Route path="edituser" element={<Adminedituser/>}/>
             </Route>
 
             {/* Manager Route */}

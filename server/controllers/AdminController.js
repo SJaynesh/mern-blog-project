@@ -97,7 +97,6 @@ const chageStatus = async(req,res) => {
 const updateUser = async(req,res) => {
     try{
         const {userid,name,email,password,gender,city,contact,status,role} = req.body;
-        console.log(req.body);
         if(req.file){
             //old image remove in clouldinari
             let oldimage = await User.findById(userid);
